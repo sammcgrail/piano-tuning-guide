@@ -893,3 +893,11 @@ window.addEventListener('resize', () => { scene.resize(); scene.instantOnce = tr
 if ('serviceWorker' in navigator && window.isSecureContext && !STILL) navigator.serviceWorker.register('sw.js').catch(() => { /* offline support is optional */ });
 window.__app = { state, showStep, showNote, setTab, PLAN, phasesFor, renderOffline: audio.renderOffline, midiOf, nameOf };
 document.documentElement.dataset.ready = '1';
+
+// --- sebland mobile baseline: no iOS selection / long-press magnifier on the app chrome,
+// and touches on the canvases go to the pointer gestures rather than the browser.
+document.addEventListener('selectstart', (e) => { if (!(e.target.closest && e.target.closest('input, textarea, .selectable'))) e.preventDefault(); });
+document.addEventListener('contextmenu', (e) => { if (e.target.closest && e.target.closest('canvas, button, .stage')) e.preventDefault(); });
+for (const cv of document.querySelectorAll('canvas')) {
+  ['touchstart', 'touchmove', 'touchend', 'touchcancel'].forEach((ev) => cv.addEventListener(ev, (e) => e.preventDefault(), { passive: false }));
+}
