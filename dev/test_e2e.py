@@ -332,6 +332,8 @@ async def t_tuner_tap_key(b, base):
     check(back[0] == "step", "Tuner tab: the Step button goes back to the step's note", str(back))
     mic = await page.evaluate("window.__mic.length")
     check(mic == 0, "Tuner tab: tapping keys never asks for the microphone", f"calls={mic}")
+    blocked = await page.evaluate("""(() => { const out = {}; for (const id of ['trace', 'c']) { const el = document.getElementById(id); const ev = new TouchEvent('touchstart', { cancelable: true, bubbles: true, touches: [] }); el.dispatchEvent(ev); out[id] = ev.defaultPrevented; } return out; })()""")
+    check(blocked == {"trace": False, "c": True}, "touch blocking is scoped to the 3D stage: the tuner trace still lets a scroll start", str(blocked))
     await ctx.close()
 
 async def t_audio(b, base):
