@@ -1,0 +1,6 @@
+dist/
+.pii-blocklist
+__pycache__/
+*.pyc
+.DS_Store
+node_modules/
