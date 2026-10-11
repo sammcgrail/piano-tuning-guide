@@ -905,6 +905,6 @@ document.documentElement.dataset.ready = '1';
 // and touches on the canvases go to the pointer gestures rather than the browser.
 document.addEventListener('selectstart', (e) => { if (!(e.target.closest && e.target.closest('input, textarea, .selectable'))) e.preventDefault(); });
 document.addEventListener('contextmenu', (e) => { if (e.target.closest && e.target.closest('canvas, button, .stage')) e.preventDefault(); });
-for (const cv of document.querySelectorAll('canvas')) {
+for (const cv of document.querySelectorAll('#c')) {   // the 3D stage only: #trace sits in a scrolling card
   ['touchstart', 'touchmove', 'touchend', 'touchcancel'].forEach((ev) => cv.addEventListener(ev, (e) => e.preventDefault(), { passive: false }));
 }
